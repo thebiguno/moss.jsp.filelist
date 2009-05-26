@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="item">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="link" type="xs:string" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="menu">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="menu-recurse" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:group name="menu-recurse">
+		<xs:choice>
+			<xs:element ref="item" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="menu" minOccurs="0" maxOccurs="unbounded" />
+		</xs:choice>
+	</xs:group>
+</xs:schema>

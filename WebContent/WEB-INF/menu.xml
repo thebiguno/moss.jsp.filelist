@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE root_element PUBLIC "-//Moss//Moss Menu Tag Confiugration//EN" "http://moss.thecave.homeunix.org/dtds/menu.dtd">
+<menu>
+	<item link='/foo.jsp'>Foo</item>
+	<item link='/bar.jsp'>Bar</item>
+	<item link='/baz.jsp'>Baz</item>
+	<menu>
+		<item link='/foo2.jsp'>Foo2</item>
+		<item link='/foo3.jsp'>Foo3</item>
+		<item link='/bar.jsp'>Bar</item>
+	</menu>
+</menu>
