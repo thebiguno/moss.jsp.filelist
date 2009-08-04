@@ -1,7 +1,6 @@
 package org.homeunix.thecave.moss.jsp.filelist;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,10 +75,8 @@ public class FileListTag implements Tag {
 		pageContext.getOut().println("<ul>");
 		for (String fileString : files) {
 			if (fileString.matches(getRegex())){
-				URL url = pageContext.getServletContext().getResource(fileString);
-				String location = url.getFile().replaceFirst("/[\\.a-zA-Z0-9]+", "");
-				String fileName = url.getFile().replaceFirst("/.*/", "");
-				pageContext.getOut().println("<li><a href='" + location + "'>" + fileName + "</a></li>");				
+				String fileName = fileString.replaceFirst("/.*/", "");
+				pageContext.getOut().println("<li><a href='" + fileString + "'>" + fileName + "</a></li>");				
 			}
 			recurseFolder(fileString, false);
 		}
