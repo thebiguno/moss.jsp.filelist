@@ -18,6 +18,10 @@
 			<name>folder</name>
 			<required>true</required>
 		</attribute>
+		<attribute>
+			<name>regex</name>
+			<required>true</required>
+		</attribute>
 	</tag>
 
 </taglib>

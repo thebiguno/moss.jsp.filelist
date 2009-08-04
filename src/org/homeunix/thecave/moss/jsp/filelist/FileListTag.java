@@ -3,6 +3,7 @@ package org.homeunix.thecave.moss.jsp.filelist;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
@@ -13,6 +14,7 @@ public class FileListTag implements Tag {
 	private PageContext pageContext = null;
 	private Tag parent = null;
 	private String folder; //Relative to / on webapp
+	private String regex;
 
 	public String getFolder() {
 		return folder;
@@ -20,6 +22,14 @@ public class FileListTag implements Tag {
 
 	public void setFolder(String folder) {
 		this.folder = folder;
+	}
+	
+	public String getRegex() {
+		return regex;
+	}
+	
+	public void setRegex(String extensionRegex) {
+		this.regex = extensionRegex;
 	}
 
 	public void setPageContext(PageContext arg0) {
@@ -56,6 +66,7 @@ public class FileListTag implements Tag {
 	 */
 	private boolean recurseFolder(String folder, boolean firstLevel) throws Exception{
 		List<String> files = new ArrayList<String>(pageContext.getServletContext().getResourcePaths(folder));
+		Collections.sort(files);
 
 		if (files == null || files.size() == 0)
 			return false;
@@ -64,10 +75,13 @@ public class FileListTag implements Tag {
 			pageContext.getOut().println("<li>" + folder);
 		pageContext.getOut().println("<ul>");
 		for (String fileString : files) {
-			if (!recurseFolder(fileString, false)){
+			if (fileString.matches(getRegex())){
 				URL url = pageContext.getServletContext().getResource(fileString);
-				pageContext.getOut().println("<li><a href='" + url.getFile() + "'>" + url.getFile() + "</a></li>");
+				String location = url.getFile().replaceFirst("/[\\.a-zA-Z0-9]+", "");
+				String fileName = url.getFile().replaceFirst("/.*/", "");
+				pageContext.getOut().println("<li><a href='" + location + "'>" + fileName + "</a></li>");				
 			}
+			recurseFolder(fileString, false);
 		}
 		pageContext.getOut().println("</ul>");
 		if (!firstLevel)
