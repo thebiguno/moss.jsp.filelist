@@ -1,6 +1,9 @@
 package org.homeunix.thecave.moss.jsp.filelist;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +17,8 @@ public class FileListTag implements Tag {
 	private Tag parent = null;
 	private String folder; //Relative to / on webapp
 	private String regex;
+	private String excludeRegex = "";
+	private String descriptionExtension = "txt";
 
 	public String getFolder() {
 		return folder;
@@ -29,6 +34,22 @@ public class FileListTag implements Tag {
 	
 	public void setRegex(String extensionRegex) {
 		this.regex = extensionRegex;
+	}
+	
+	public String getExcludeRegex() {
+		return excludeRegex;
+	}
+	
+	public void setExcludeRegex(String excludeRegex) {
+		this.excludeRegex = excludeRegex;
+	}
+	
+	public String getDescriptionExtension() {
+		return descriptionExtension;
+	}
+	
+	public void setDescriptionExtension(String descriptionExtension) {
+		this.descriptionExtension = descriptionExtension;
 	}
 
 	public void setPageContext(PageContext arg0) {
@@ -74,9 +95,20 @@ public class FileListTag implements Tag {
 			pageContext.getOut().println("<li>" + folder);
 		pageContext.getOut().println("<ul>");
 		for (String fileString : files) {
-			if (fileString.matches(getRegex())){
-				String fileName = fileString.replaceFirst("/.*/", "");
-				pageContext.getOut().println("<li><a href='" + fileString + "'>" + fileName + "</a></li>");				
+			if (fileString.matches(getRegex()) && (getExcludeRegex().length() == 0 || !fileString.matches(getExcludeRegex()))){
+				String description = fileString + "." + getDescriptionExtension();
+				InputStream descriptionStream = pageContext.getServletContext().getResourceAsStream(description);
+				String text = "";
+				if (descriptionStream == null)
+					text = fileString.replaceFirst("/.*/", "");
+				else {
+					BufferedReader reader = new BufferedReader(new InputStreamReader(descriptionStream));
+					String line = null;
+					while ((line = reader.readLine()) != null){
+						text += line;
+					}
+				}
+				pageContext.getOut().println("<li><a href='" + fileString + "'>" + text + "</a></li>");				
 			}
 			recurseFolder(fileString, false);
 		}

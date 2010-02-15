@@ -1,2 +1,6 @@
+1.0.1.0 - February 14 2009
+-Added the ability to include .txt files at the same location as files, to give a description.  File name should be the same as the linked file, but with an added .txt extension.
+-Added excludeRegex tag to hide certain files.  Files will only be included which match regex and do not match excludeRegex.  Set excludeRegex to empty string (default) to disable.
+
 1.0.0.0 - August 4 2009
 -Initial stable version 

@@ -22,6 +22,14 @@
 			<name>regex</name>
 			<required>true</required>
 		</attribute>
+		<attribute>
+			<name>excludeRegex</name>
+			<required>false</required>
+		</attribute>
+		<attribute>
+			<name>descriptionExtension</name>
+			<required>false</required>
+		</attribute>
 	</tag>
 
 </taglib>

@@ -9,7 +9,7 @@
 <body>
 <h1>Foo</h1>
 
-<f:list-files folder="/foo" regex=".*txt$|.*xml$"/>
+<f:list-files folder="/foo" regex=".*txt$|.*xml$" descriptionExtension="foo"/>
 
 </body>
 </html>
